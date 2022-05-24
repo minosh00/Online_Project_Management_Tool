@@ -1,48 +1,42 @@
+import axios from "axios";
 import React, { useState } from "react";
-import { Link , useNavigate } from "react-router-dom";
-import { LoginStudent } from "../services/AuthServices";
 import Swal from "sweetalert2";
-import logo from './images/loginnn.webp'
-
-const Login = () => {
-
-	const navigate = useNavigate();
-
-	const [formData, setFormData] = useState({
-		email: "",
-		password: "",
-	});
-
-	const { email, password } = formData;
-
-	const onChange = (e) =>
-		setFormData({ ...formData, [e.target.name]: e.target.value });
-
-	const onSubmit = async (e) => {
-		e.preventDefault();
-		console.log(formData);
-		let data = await LoginStudent(formData);
-		console.log("data",data);
-        if(data.data.token)
-        {
-            localStorage.setItem("token",data.data.token);
-            localStorage.setItem("userRole",data.data.userRole);
-			{   Swal.fire('Congrats' , 'Successfully login Your Account ' , 'success')
-			navigate("/StudentProfile");
-			  }
-
-        }
-        else
-        {
-			   Swal.fire('error' , 'Successfully login Your Account ' , 'error')
-			
-			  
-        }
-	};
+import { Link } from "react-router-dom";
 
 
-	return (
-		<div>
+
+const AddTopic = () => {
+  const [GroupID, setGroupID] = useState("");
+  const [TopicName, setTopicName] = useState();
+  const [GruopLeaderEmail, setGruopLeaderEmail] = useState("");
+  const [GruopMembersItNumbers, setGruopMembersItNumbers] = useState("");
+  const [GruopLeaderItNumber, setGruopLeaderItNumber] = useState("");
+  const [GruopMembersNames, setGruopMembersNames] = useState("");
+
+  const changeOnClick = (f) => {
+    
+
+    const addtopic = {
+        GroupID,
+        TopicName,
+        GruopLeaderEmail,
+        GruopLeaderItNumber,
+        GruopMembersItNumbers,
+        GruopMembersNames,
+    };
+
+    axios.post("http://localhost:8080/topic/addTopic/", addtopic);
+
+    Swal.fire("Congrats", " Topic Register  successfully", "success")
+
+  
+
+    
+    
+  };
+  return (
+
+    <div>
 			      <center>
       <div style={{marginTop:"30px"}}>
           <center><h1>Welcome to  Research Project Management Tool system</h1></center> 
@@ -61,16 +55,12 @@ const Login = () => {
    <a style={{ display: localStorage.getItem("userRole") == "Admin" ? "flex" : "none" }} className="nav-link active" href="/AllStudents" aria-current="page">All Students</a>
                             <a style={{ display: localStorage.getItem("userRole") == "Admin" ? "flex" : "none" }} className="nav-link active" href="/AdminRegister" aria-current="page">Register Admin</a>
                             <a style={{ display: localStorage.getItem("userRole") == "Admin" ? "flex" : "none" }} className="nav-link active" href="/StaffRegister" aria-current="page">Add Staff</a>
-                            <a style={{ display: localStorage.getItem("userRole") == "student" ? "flex" : "none" }} className="nav-link active" href="/RegisterGroup" aria-current="page">Register Group</a>
 
                             {/* student Pages */}
                             <a style={{ display: localStorage.getItem("userRole") == "student" ? "flex" : "none" }} className="nav-link active" href="/" aria-current="page">Assignment </a>
                             <a style={{ display: localStorage.getItem("userRole") == "student" ? "flex" : "none" }} className="nav-link active" href="/StudentProfile" aria-current="page">My Profile</a>
+           
                             <a style={{ display: localStorage.getItem("userRole") == "student" ? "flex" : "none" }} className="nav-link active" href="/TopicRegister" aria-current="page">Topic Register</a>
-
-                            <a style={{ display: localStorage.getItem("userRole") == "student" ? "flex" : "none" }} className="nav-link active" href="/DisplayTopicStatusByStudent" aria-current="page">Display Topic Status </a>
-
-                            <a style={{ display: localStorage.getItem("userRole") == "student" ? "flex" : "none" }} className="nav-link active" href="/RegisterGroup" aria-current="page">Register Group</a>
 
 
            
@@ -107,56 +97,90 @@ const Login = () => {
           </nav>
         </center>
 		<br/>
-		<div className="container">
-<div className="container mt-5">
-              <div className="card card0 border-0">
-                  <div className="row d-flex">
-                      <div className="col-lg-6">
-                          <div className="card1 pb-5">
-                     
-                              <div className="row px-3 justify-content-center mt-4 mb-5 border-line"> <img src={logo} style={{height:"380px" , width:"450px"}} className="image" /> </div>
-                          </div>
-                      </div>
-                      <div className="col-lg-6">
-                      <form className="form" onSubmit={(e) => onSubmit(e)}>
-                              <div className="card2 card border-0 px-4 py-5">
-                              <h1> SIGN IN</h1>
-                              <br></br>
-                                  <div class="form-floating mb-3">
-                                      <input class="form-control"  name="email" value={email} onChange={(e) => onChange(e)} required placeholder="Enter Email" />
-                                      <label for="floatingInput">Email </label>
-                                  </div>
+    <div className="container ">
+        <br></br> <br></br>
+      <center>
+        <h1>Register Your Research Topic</h1>
+        <form onSubmit={changeOnClick} encType="">
+            <br></br>
 
-                                  <div class="form-floating mb-3">
-                                      <input class="form-control" type="password" placeholder="Password" 	name="password" 	minLength="6" value={password} onChange={(e) => onChange(e)} required />
-                                      <label for="floatingPassword">Password</label>
-                                  </div>
+          <div className="form-row">
+            <div className="form-group col-md-6">
+              <label htmlfor="name">Group ID</label>
+              <br />
+              <input
+                type="text"
+                onChange={(f) => setGroupID(f.target.value)}
+                className="form-control"
+      
+              />
+            </div>
+<br></br>
 
-                                  <div class="form-check mb-3">
-                                  <input class="form-check-input" type="checkbox" value="" id="rememberPasswordCheck" />&nbsp;
-                                  <label class="form-check-label" for="rememberPasswordCheck">
-                                      Remember password
-                                  </label>
-                              </div>
-                                  <div className="row mb-3 px-3">
-                                      <button type="submit" className="btn btn-blue text-center">Login</button>
-                                  </div>
-                                  <div>
-                                
-                                <b><small>Dont have an account? <a href="/register" className="text-danger "><b>Register</b></a></small></b>
-                                
-                            </div>
-                              </div>
-                          </form>
-                       
-                      </div>
-                  </div>
-              </div>
+            <div className="form-group col-md-6">
+              <label htmlfor="TopicName">Topic Name</label>
+              <br />
+              <input
+                type="text"
+                onChange={(f) => setTopicName(f.target.value)}
+                className="form-control"
+      
+              />
+            </div>
+<br></br>
+
+            <div className="form-group col-md-6">
+              <label htmlfor="description">Gruop Leader Email</label>
+        
+              <input
+                type="email"
+                onChange={(f) => setGruopLeaderEmail(f.target.value)}
+                className="form-control"
+       
+              />
+            </div>
           </div>
-</div>
-</div>
-	
-	);
+          <div className="form-row">
+ 
+          <div className="form-group col-md-6">
+            <label htmlfor="phoneNumber">Gruop Leader ItNumber </label>
+            <input
+              type="text"
+              onChange={(f) => setGruopLeaderItNumber(f.target.value)}
+              className="form-control"
+            />
+          </div>
+       </div>
+        <div className="form-row">
+          <div className="form-group col-md-6">
+            <label htmlfor="type">Gruop Members ItNumbers</label>
+      
+      
+            <textarea class="form-control" id="exampleFormControlTextarea3"  onChange={(f) => setGruopMembersItNumbers(f.target.value)} rows="7">
+            </textarea>
+
+          </div>
+ 
+          <div className="form-group col-md-6">
+            <label htmlfor="image1">Gruop Members Names</label>
+            <br />
+            <textarea class="form-control" id="exampleFormControlTextarea3" onChange={(f) => setGruopMembersNames(f.target.value)}rows="7">
+            </textarea>
+         
+          </div>
+         </div>
+          <br />
+          <br />
+
+          <button type="submit" className="btn btn-primary">
+           Submit Topic
+          </button>
+        </form>
+      </center>
+
+    </div>
+    </div>
+  );
 };
 
-export default Login;
+export default AddTopic;

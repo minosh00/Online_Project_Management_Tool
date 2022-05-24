@@ -10,6 +10,21 @@ import CoSupervisor from './components/Admin/CoSupervisor';
 import Panalmemeber from './components/Admin/panalmemeber';
 
 
+//pdf
+import UploadPdf from './components/Students/UploadPdf';
+import DisplayUploadPdf from './components/Students/DisplayUploadPdf';
+
+
+//student
+import TopicRegister from './components/Students/TopicRegister';
+import DisplayTopicStatus from './components/Students/DisplayTopicStatus';
+import UpdateRoom from './components/Admin/UpdateTpoicStatus';
+import DisplayTopicStatusByStudent from './components/Students/DisplayTopicStatusByStudent';
+import RegisterGroup from './components/Students/RegisterGroup';
+
+
+import Mailer from './components/Students/Mailer';
+
 
 import React , {useEffect , useState} from 'react'
 
@@ -29,6 +44,7 @@ import React , {useEffect , useState} from 'react'
         <Router>
  
           <Routes>
+          <Route  extact path="/" element={<Login />} />
           <Route  path="/Login" element={<Login />} />
           <Route  path="/register" element={<Register />} />
           <Route  path="/StudentProfile" element={<StudentProfile />} />
@@ -45,7 +61,26 @@ import React , {useEffect , useState} from 'react'
 
 
           
+          <Route  path="/UploadPdf" element={<UploadPdf />} />
+          <Route  path="/DisplayUploadPdf" element={<DisplayUploadPdf />} />
 
+          <Route  path="/TopicRegister" element={<TopicRegister />} />
+
+          <Route  path="/DisplayTopicStatus" element={<DisplayTopicStatus />} />
+
+          <Route path="/updateTopicByID/:id" element={<UpdateRoom/>}/>
+
+
+          <Route path="/updateTopicemailByID/:id" element={<Mailer/>}/>
+
+
+
+          <Route path="/DisplayTopicStatusByStudent" element={<DisplayTopicStatusByStudent/>}/>
+
+          <Route path="/RegisterGroup" element={<RegisterGroup/>}/>
+
+
+          
           
             </Routes>
             </Router>

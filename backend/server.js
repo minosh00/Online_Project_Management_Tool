@@ -6,9 +6,19 @@ const mongoose = require("mongoose");
 //import routes
 const user = require("./Routes/userRoutes");
 
+//pdf
+const dotenv = require("dotenv");
+const fileupload = require('express-fileupload'); 
+
+dotenv.config();
+
+
+
 
 const app = express();
 const PORT = process.env.PORT || 8080;
+
+
 
 
 app.use(cors({
@@ -22,6 +32,19 @@ app.use(bodyParser.json());
 
 //use Routes
 app.use("/user",user);
+
+app.use("/pdfupload", require("./Routes/PdfUploadRoutes"));
+
+
+app.use("/topics", require("./Routes/Topic"));
+
+app.use("/topic", require("./Routes/TopicRoutes"));
+
+
+app.use("/gruops", require("./Routes/GroupRoutes"));
+
+
+
 
 //DB connection
 const DB_URL =

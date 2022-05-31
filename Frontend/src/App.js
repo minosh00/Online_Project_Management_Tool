@@ -49,34 +49,14 @@ import React , {useEffect , useState} from 'react'
           <Route  path="/register" element={<Register />} />
           <Route  path="/StudentProfile" element={<StudentProfile />} />
           <Route  path="/AllStudents" element={<AllStudents />} />
-          <Route  path="/AdminRegister" element={<AdminRegister />} />
-
-          <Route  path="/StaffRegister" element={<StaffRegister />} />
-
-          <Route  path="/supervisor" element={<StaffRegisterss />} />
-
-          <Route  path="/CoSupervisor" element={<CoSupervisor />} />
-
-          <Route  path="/panalmemeber" element={<Panalmemeber />} />
-
-
-          
+    
           <Route  path="/UploadPdf" element={<UploadPdf />} />
           <Route  path="/DisplayUploadPdf" element={<DisplayUploadPdf />} />
-
           <Route  path="/TopicRegister" element={<TopicRegister />} />
-
           <Route  path="/DisplayTopicStatus" element={<DisplayTopicStatus />} />
-
           <Route path="/updateTopicByID/:id" element={<UpdateRoom/>}/>
-
-
           <Route path="/updateTopicemailByID/:id" element={<Mailer/>}/>
-
-
-
           <Route path="/DisplayTopicStatusByStudent" element={<DisplayTopicStatusByStudent/>}/>
-
           <Route path="/RegisterGroup" element={<RegisterGroup/>}/>
 
 

@@ -49,7 +49,6 @@ import React , {useEffect , useState} from 'react'
           <Route  path="/register" element={<Register />} />
           <Route  path="/StudentProfile" element={<StudentProfile />} />
           <Route  path="/AllStudents" element={<AllStudents />} />
-    
           <Route  path="/UploadPdf" element={<UploadPdf />} />
           <Route  path="/DisplayUploadPdf" element={<DisplayUploadPdf />} />
           <Route  path="/TopicRegister" element={<TopicRegister />} />

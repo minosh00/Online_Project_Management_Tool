@@ -1,30 +1,31 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import Login from './components/Login';
-import Register from './components/Register';
-import StudentProfile from './components/StudentProfile';
-import AllStudents from './components/Admin/AllStudents';
-import AdminRegister from './components/Admin/AdminRegister';
-import StaffRegisterss from './components/Admin/StaffRegisterSupervisor';
-import StaffRegister from './components/Admin/Staff';
-import CoSupervisor from './components/Admin/CoSupervisor';
-import Panalmemeber from './components/Admin/panalmemeber';
+import Login from "./components/Login";
+import Register from "./components/Register";
+import StudentProfile from "./components/StudentProfile";
+import AllStudents from "./components/Admin/AllStudents";
+import AdminRegister from "./components/Admin/AdminRegister";
+import StaffRegisterss from "./components/Admin/StaffRegisterSupervisor";
+import StaffRegister from "./components/Admin/Staff";
+import CoSupervisor from "./components/Admin/CoSupervisor";
+import Panalmemeber from "./components/Admin/panalmemeber";
+import {  useEffect, useState } from 'react';
+//admin part
+
 
 
 //pdf
-import UploadPdf from './components/Students/UploadPdf';
-import DisplayUploadPdf from './components/Students/DisplayUploadPdf';
-
+import UploadPdf from "./components/Students/UploadPdf";
+import DisplayUploadPdf from "./components/Students/DisplayUploadPdf";
 
 //student
-import TopicRegister from './components/Students/TopicRegister';
-import DisplayTopicStatus from './components/Students/DisplayTopicStatus';
-import UpdateRoom from './components/Admin/UpdateTpoicStatus';
-import DisplayTopicStatusByStudent from './components/Students/DisplayTopicStatusByStudent';
-import RegisterGroup from './components/Students/RegisterGroup';
-
-
-import Mailer from './components/Students/Mailer';
-
+import UpdateRoom from "./components/Admin/UpdateTpoicStatus";
+import RegisterGroup from "./components/Students/RegisterGroup";
+import RegisterGropStatus from "./components/Admin/RegisterGropStatus";
+import GroupConfirmEmail from "./components/Students/GroupConfirmEmail";
+import AssignGroupID from "./components/Admin/AssignGroupID";
+import Mailer from "./components/Students/Mailer";
+import StudentAll from "./components/Students/StudentAll";
+import AdminAll from "./components/Admin/AdminAll";
 
 import React , {useEffect , useState} from 'react'
 

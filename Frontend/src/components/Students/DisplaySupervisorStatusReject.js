@@ -1,110 +1,62 @@
-import emailjs from "emailjs-com";
-import React, { useEffect, useState } from "react";
+ 
+
+
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { SendEmailByid, getTopicById } from "../services/RequestTopic";
-
 import Swal from "sweetalert2";
+import Loader from "./Loader";
+import { Link } from "react-router-dom";
+import autoTable from 'jspdf-autotable'
+import { jsPDF } from "jspdf";
+
+function DisplaySupervisorStatusReject() {
+
+  const [users, setusers] = useState();
+  const [serachItem,setserachItem] =useState([]);
+  const [loading, setloading] = useState(true);
 
 
+  useEffect(async () => {
 
-const Mailer = () => {
-
-
-
-
-  const navigate = useNavigate();
-
-  const { id } = useParams();
-
-  const handleSubmit = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userRole");
-    navigate("/Login");
-  };
-
-
-  const [GroupID, setGroupID] = useState("");
-  const [GruopLeaderEmail, setGruopLeaderEmail] = useState("");
-  const [status, setstatus] = useState("");
-
-
-  const handleRoomNo = (e) => {
-    setGroupID(e.target.value);
-  };
-
-  const handleRoomFloor = (e) => {
-    setGruopLeaderEmail(e.target.value);
-  };
-
-
-const handlestatus = (e) => {
-    setstatus(e.target.value);
-  };
-
-
-
-  const GetTopicData = async () => {
-
-    let data = await getTopicById(id);
-
-    console.log("Update topics", data);
-    setGroupID(data?.data?.GroupID);
-    setGruopLeaderEmail(data?.data?.GruopLeaderEmail);
-   setstatus(data?.data?.status);
-  };
-
-  useEffect(() => {
-    GetTopicData();
+    try {
+      const data = await (
+        await axios.get("http://localhost:8080/SupervisorRequest/AllSupervicorRequestStatus/")
+      ).data;
+        console.log("all data",data)
+        var array =[]
+      data?.map((users)=>{
+        if(users?.status=="Reject")
+        {
+            array.push(users);
+        }
+    });
+    setusers(array);
+      setloading(false);
+    } catch (error) {
+      console.log(error);
+      setloading(false);
+    }
   }, []);
 
-  const UpdateTopicData = async (e) => {
-    e.preventDefault();
+
+  function pdfGenerat(){
+    var doc = new jsPDF('landscape', 'px', 'a4', 'false');
     
-    let newdata = {
-      GroupID: GroupID,
-      GruopLeaderEmail: GruopLeaderEmail,
-      status: status,
+    doc.autoTable({
+           
+            body: [
+                [{ content: '  ', colSpan: 2, rowSpan: 2, styles: { halign: 'center' } }],
+              ],
+            })
+        autoTable(doc, { html: '#cusdet' })
+       doc.save('SupervisorRegister.pdf')
+  
+          }
 
-    
-    };
 
-    let data = await SendEmailByid(id, newdata);
-    console.log("Update success ", data);
-    if (!data?.data?.GroupID) {
-      alert("Update failed..");
-    } else {
 
-      navigate("/TopicAcpect")
-
-    }
-  };
-
-  function sendEmail(e) {
-
-    
-    e.preventDefault();
-
-    emailjs.sendForm(
-      "service_471dfme",
-      "template_mwvhicz",
-      e.target,
-      "l5NUKPpbvRhbN3ZLl"
-    ).then(res=>{
-
-      Swal.fire("Congrats", " successfully send email to student ", "success");{
-
-        navigate("/TopicAcpect")
-      }
-
-    
-        console.log(res);
-    }).catch(err=> console.log(err));
-  }
 
   return (
-
-
     <div className="">
     <div style={{ textAlign: "center" }}>
  <div style={{ marginTop: "30px" }}>
@@ -160,7 +112,7 @@ const handlestatus = (e) => {
              </div>
          </div>
      </div>
-   
+ 
  </nav>
 
             <br />
@@ -169,45 +121,76 @@ const handlestatus = (e) => {
             <br />
             <br />
 
+    
+
+<br/>
+
+    <div className="row">
   
+      {loading && <Loader />}
 
+      <div className="col-md-9">
+      
+        <center><h1>SupervisorRequest Reject  Status</h1></center>
+    
+        <div class="input-group">
+  <div className="col-md-9">
+  <h4> Now You Can Search Your Group     </h4>
+  <input type="search" class="form-control rounded" style={{ marginRight:"120%" , marginTop:"30px"}} placeholder="Search by GroupID  " aria-label="Search"  onChange={event=>{setserachItem(event.target.value)}} 
+    aria-describedby="search-addon" />
+  </div>
+</div>
 
-    <div
+<br></br> <br></br>
+        <br></br>
+        <button className="btn btn-danger btn-sm"  style={{marginTop:"-100px" , marginLeft:"100px"}} onClick={pdfGenerat}>Download PDF</button>
 
-      className="container border"
-      style={{
-        marginTop: "50px",
-        width: "50%",
-        backgroundImage: `url('')`,
-        backgroundPosition: "center",
-        backgroundSize: "cover",
-      }}
-    >
-      <h1 style={{ marginTop: "25px" }}>Contact Form</h1>
-      <form
-        className="row"
-        style={{ margin: "25px 85px 75px 100px" }}
-        onSubmit={sendEmail}
-      >
-        <label>email</label>
-        <input type="email" name="email"   value={GruopLeaderEmail}   onChange={handleRoomFloor}  className="form-control" />
+        <table className="table table-bordered " style={{marginLeft:"20%" , marginTop:"-20px" , width:""}}>
+          <thead className="bs">
+            <tr>
+              <th  style={{color:"white" , backgroundColor:"black"}} >Group ID</th>
+              <th  style={{color:"white" , backgroundColor:"black"}} >Gruop Leader Email</th>
+              <th  style={{color:"white" , backgroundColor:"black"}} >status </th>
+              <th  style={{color:"white" , backgroundColor:"black"}} >supervisorID</th>
+           
+            </tr>
+          </thead>
 
-        <label>gruopID</label>
-        <input type="text" name="id" value={GroupID}  onChange={handleRoomNo} className="form-control" />
+          <tbody id="cusdet"  >
+            {users &&
+              users.filter((users)=>{
+                if(serachItem ==""){
+                      return users
+                }else if(users.GroupID.toLowerCase().includes(serachItem.toLowerCase())){
+             
+                  return users
+   }   })
+                
+              .map((users) => {
+              
+              
+                return (
+                  <tr>
+                    <td>{users.GroupID}</td>
+                    <td>{users.GruopLeaderEmail}</td>
+                    <td>{users.status}</td>
+                    <td>{users.supervisorID}</td>
+        
+                  </tr>
+                );
+              })}
+          </tbody>
+        </table>
 
-        <label>Message</label>
-        <textarea name="message" rows="4"   placeholder="your Group Topic is "  value={status}    className="form-control" />
-        <input
-          type="submit"
-          value="Send"
-          className="form-control btn btn-primary"
-          style={{ marginTop: "30px" }}
-        />
-      </form>
+       
+      </div>
+      
     </div>
     </div>
     </div>
   );
-};
+}
 
-export default Mailer;
+export default DisplaySupervisorStatusReject;
+
+

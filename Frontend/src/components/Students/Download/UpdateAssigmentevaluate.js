@@ -1,17 +1,11 @@
-import emailjs from "emailjs-com";
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { SendEmailByid, getTopicById } from "../services/RequestTopic";
-
+ 
 import Swal from "sweetalert2";
+ import React from "react";
+import { useState, useEffect } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { getevaluvtAssigmentById, updateAssigment } from "../../services/EvalvateAssigment";
 
-
-
-const Mailer = () => {
-
-
-
+const UpdateAssigmentevaluate = () => {
 
   const navigate = useNavigate();
 
@@ -22,89 +16,89 @@ const Mailer = () => {
     localStorage.removeItem("userRole");
     navigate("/Login");
   };
+  const [name, setGroupID] = useState("");
+  const [AssignmentType, setGruopLeaderEmail] = useState("");
+  const [status, setGruopLeaderItNumber] = useState("");
+  const [img, setGruopMembersItNumbers] = useState("");
+  
 
 
-  const [GroupID, setGroupID] = useState("");
-  const [GruopLeaderEmail, setGruopLeaderEmail] = useState("");
-  const [status, setstatus] = useState("");
 
-
-  const handleRoomNo = (e) => {
+  const handleGruopLeaderEmail = (e) => {
     setGroupID(e.target.value);
   };
 
-  const handleRoomFloor = (e) => {
+  const handleGruopLeaderItNumber = (e) => {
     setGruopLeaderEmail(e.target.value);
   };
 
-
-const handlestatus = (e) => {
-    setstatus(e.target.value);
+  const handleGruopMembersItNumbers = (e) => {
+    setGruopLeaderItNumber(e.target.value);
   };
 
+  const handleGruopMembersNames= (e) => {
+    setGruopMembersItNumbers(e.target.value);
+  };
+
+ 
+ 
+ 
 
 
-  const GetTopicData = async () => {
 
-    let data = await getTopicById(id);
+  const GetData = async () => {
 
-    console.log("Update topics", data);
-    setGroupID(data?.data?.GroupID);
-    setGruopLeaderEmail(data?.data?.GruopLeaderEmail);
-   setstatus(data?.data?.status);
+    let data = await getevaluvtAssigmentById(id);
+    console.log("Update groups", data);
+
+
+    setGroupID(data?.data?.name);
+    setGruopLeaderEmail(data?.data?.AssignmentType);
+    setGruopLeaderItNumber(data?.data?.status);
+    setGruopMembersItNumbers(data?.data?.img);
+ 
+
   };
 
   useEffect(() => {
-    GetTopicData();
+    GetData();
   }, []);
 
-  const UpdateTopicData = async (e) => {
+  const UpdateData = async (e) => {
     e.preventDefault();
-    
     let newdata = {
-      GroupID: GroupID,
-      GruopLeaderEmail: GruopLeaderEmail,
-      status: status,
-
+        name:name,
+        AssignmentType:AssignmentType,
+        status:status,
+        img:img,
+      
     
     };
 
-    let data = await SendEmailByid(id, newdata);
-    console.log("Update success ", data);
-    if (!data?.data?.GroupID) {
-      alert("Update failed..");
+    let data = await updateAssigment(id, newdata);
+    console.log("Update success ", data)
+    if (!data?.data?.name) {
+      {   Swal.fire('Congrats' , ' Evaluated successfully ' , 'success')
+
+      navigate("/downloadAssigmentsup");
+   }
+
+
+    
     } else {
 
-      navigate("/TopicAcpect")
+      {   Swal.fire('Congrats' , 'error ' , 'success')
 
+           navigate("/downloadAssigmentsup");
+			  }
+     
+
+     
+    
     }
   };
 
-  function sendEmail(e) {
-
-    
-    e.preventDefault();
-
-    emailjs.sendForm(
-      "service_471dfme",
-      "template_mwvhicz",
-      e.target,
-      "l5NUKPpbvRhbN3ZLl"
-    ).then(res=>{
-
-      Swal.fire("Congrats", " successfully send email to student ", "success");{
-
-        navigate("/TopicAcpect")
-      }
-
-    
-        console.log(res);
-    }).catch(err=> console.log(err));
-  }
-
   return (
-
-
     <div className="">
     <div style={{ textAlign: "center" }}>
  <div style={{ marginTop: "30px" }}>
@@ -160,7 +154,9 @@ const handlestatus = (e) => {
              </div>
          </div>
      </div>
-   
+     <button onClick={handleSubmit} className="btn btn-outline-danger" type="submit" style={{ float: "right" }}>
+         Logout
+     </button>
  </nav>
 
             <br />
@@ -169,45 +165,38 @@ const handlestatus = (e) => {
             <br />
             <br />
 
-  
 
 
-    <div
+    <div className="container-fluid px-1 px-md-5 px-lg-1 px-xl-5 py-5 mx-auto">
+      <center>
+        <br />
+        <form>
+          <label className="label" style={{color:"red" , fontSize:"30px" }}> Evaluate Status</label>
 
-      className="container border"
-      style={{
-        marginTop: "50px",
-        width: "50%",
-        backgroundImage: `url('')`,
-        backgroundPosition: "center",
-        backgroundSize: "cover",
-      }}
-    >
-      <h1 style={{ marginTop: "25px" }}>Contact Form</h1>
-      <form
-        className="row"
-        style={{ margin: "25px 85px 75px 100px" }}
-        onSubmit={sendEmail}
-      >
-        <label>email</label>
-        <input type="email" name="email"   value={GruopLeaderEmail}   onChange={handleRoomFloor}  className="form-control" />
+          <input
+          type="text"
+            class="form-control"
+            id="floatingInput"
+            value={status}
+            style={{ width: "200px" }}
+            onChange={handleGruopMembersItNumbers}
+          >
+        
+          </input>
+          <br></br>
 
-        <label>gruopID</label>
-        <input type="text" name="id" value={GroupID}  onChange={handleRoomNo} className="form-control" />
-
-        <label>Message</label>
-        <textarea name="message" rows="4"   placeholder="your Group Topic is "  value={status}    className="form-control" />
-        <input
-          type="submit"
-          value="Send"
-          className="form-control btn btn-primary"
-          style={{ marginTop: "30px" }}
-        />
-      </form>
+          <button
+            onClick={(e) => UpdateData(e)}
+            className="btn btn-outline-danger"
+            type="submit">
+            Update
+          </button>
+        </form>
+      </center>
     </div>
     </div>
     </div>
   );
 };
 
-export default Mailer;
+export default UpdateAssigmentevaluate;

@@ -1,110 +1,110 @@
-import emailjs from "emailjs-com";
-import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { SendEmailByid, getTopicById } from "../services/RequestTopic";
 
-import Swal from "sweetalert2";
+ import emailjs from "emailjs-com";
+ import React, { useEffect, useState } from "react";
+ import axios from "axios";
+ import { Link, useNavigate, useParams } from "react-router-dom";
+ import { updateGroupsByID, getGroupsById } from "../services/DisplayGroupRegister";
+ import Swal from "sweetalert2";
 
+ 
 
+ const GroupConfirmEmail = () => {
+ 
+ 
 
-const Mailer = () => {
+   const navigate = useNavigate();
+ 
+   const { id } = useParams();
+ 
+   const handleSubmit = () => {
+     localStorage.removeItem("token");
+     localStorage.removeItem("userRole");
+     navigate("/Login");
+   };
+ 
 
-
-
-
-  const navigate = useNavigate();
-
-  const { id } = useParams();
-
-  const handleSubmit = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userRole");
-    navigate("/Login");
-  };
-
-
-  const [GroupID, setGroupID] = useState("");
+ 
+ const [GroupID, setGroupID] = useState("");
   const [GruopLeaderEmail, setGruopLeaderEmail] = useState("");
-  const [status, setstatus] = useState("");
+  const [GruopMembersItNumbers, setGruopMembersItNumbers] = useState("");
 
 
-  const handleRoomNo = (e) => {
+ 
+ 
+   const handleGroupID = (e) => {
     setGroupID(e.target.value);
-  };
-
-  const handleRoomFloor = (e) => {
+   };
+ 
+   const handleGruopLeaderEmail = (e) => {
     setGruopLeaderEmail(e.target.value);
-  };
+   };
+ 
+ 
+ const handleGruopMembersItNumbers = (e) => {
+    setGruopMembersItNumbers(e.target.value);
+   };
+ 
+ 
+ 
+   const GetgruopssData = async () => {
+ 
+     let data = await getGroupsById(id);
+ 
+     console.log("Update gruopid", data);
+     setGroupID(data?.data?.GroupID);
+     setGruopLeaderEmail(data?.data?.GruopLeaderEmail);
+     setGruopMembersItNumbers(data?.data?.GruopMembersItNumbers);
+   };
+ 
+   useEffect(() => {
+    GetgruopssData();
+   }, []);
+ 
+   const UpdateGroupData = async (e) => {
+     e.preventDefault();
+     
+     let newdata = {
+       GroupID: GroupID,
+       GruopLeaderEmail: GruopLeaderEmail,
+       GruopMembersItNumbers: GruopMembersItNumbers,
+ 
+     
+     };
+ 
+     let data = await updateGroupsByID(id, newdata);
+     console.log("Update success ", data);
+     if (!data?.data?.GroupID) {
+       alert("Update failed..");
+     } else {
+ 
+       navigate("/RegisterGropStatus");
+     }
+   };
+ 
+   function sendEmail(e) {
+ 
+     
+     e.preventDefault();
+ 
+     emailjs.sendForm(
+       "service_471dfme",
+       "template_mwvhicz",
+       e.target,
+       "l5NUKPpbvRhbN3ZLl"
+     ).then(res=>{
+      {   Swal.fire('Congrats' , 'Successfully Send Email ' , 'success')
 
-
-const handlestatus = (e) => {
-    setstatus(e.target.value);
-  };
-
-
-
-  const GetTopicData = async () => {
-
-    let data = await getTopicById(id);
-
-    console.log("Update topics", data);
-    setGroupID(data?.data?.GroupID);
-    setGruopLeaderEmail(data?.data?.GruopLeaderEmail);
-   setstatus(data?.data?.status);
-  };
-
-  useEffect(() => {
-    GetTopicData();
-  }, []);
-
-  const UpdateTopicData = async (e) => {
-    e.preventDefault();
-    
-    let newdata = {
-      GroupID: GroupID,
-      GruopLeaderEmail: GruopLeaderEmail,
-      status: status,
-
-    
-    };
-
-    let data = await SendEmailByid(id, newdata);
-    console.log("Update success ", data);
-    if (!data?.data?.GroupID) {
-      alert("Update failed..");
-    } else {
-
-      navigate("/TopicAcpect")
-
-    }
-  };
-
-  function sendEmail(e) {
-
-    
-    e.preventDefault();
-
-    emailjs.sendForm(
-      "service_471dfme",
-      "template_mwvhicz",
-      e.target,
-      "l5NUKPpbvRhbN3ZLl"
-    ).then(res=>{
-
-      Swal.fire("Congrats", " successfully send email to student ", "success");{
-
-        navigate("/TopicAcpect")
-      }
-
-    
-        console.log(res);
-    }).catch(err=> console.log(err));
-  }
-
-  return (
-
-
+      navigate("/RegisterGropStatus")
+			  }
+     
+      
+         console.log(res);
+     }).catch(err=> console.log(err));
+   }
+ 
+   return (
+ 
+ 
     <div className="">
     <div style={{ textAlign: "center" }}>
  <div style={{ marginTop: "30px" }}>
@@ -169,45 +169,48 @@ const handlestatus = (e) => {
             <br />
             <br />
 
-  
+ 
+ 
+     <div
+ 
+       className="container border"
+       style={{
+         marginTop: "50px",
+         width: "50%",
+         backgroundImage: `url('')`,
+         backgroundPosition: "center",
+         backgroundSize: "cover",
+       }}
+     >
+       <h1 style={{ marginTop: "25px" }}>Contact Form</h1>
+       <form
+         className="row"
+         style={{ margin: "25px 85px 75px 100px" }}
+         onSubmit={sendEmail}
+       >
+         <label>email</label>
+         <input type="email" name="email"   value={GruopLeaderEmail}   onChange={handleGruopLeaderEmail}  className="form-control" />
+ 
+         <label>gruopID</label>
+         <input type="text" name="id" value={GroupID}  onChange={handleGroupID} className="form-control" />
+ 
+         <label>Message</label>
+         <textarea name="message" rows="4"   placeholder="your Group Topic is "  value={GruopMembersItNumbers}    className="form-control" />
+         <input
+           type="submit"
+           value="Send"
+           className="form-control btn btn-primary"
+           style={{ marginTop: "30px" }}
+         />
+       </form>
+     </div>
+     </div>
+
+     </div>
+   );
+ };
+ 
+ export default GroupConfirmEmail;
 
 
-    <div
 
-      className="container border"
-      style={{
-        marginTop: "50px",
-        width: "50%",
-        backgroundImage: `url('')`,
-        backgroundPosition: "center",
-        backgroundSize: "cover",
-      }}
-    >
-      <h1 style={{ marginTop: "25px" }}>Contact Form</h1>
-      <form
-        className="row"
-        style={{ margin: "25px 85px 75px 100px" }}
-        onSubmit={sendEmail}
-      >
-        <label>email</label>
-        <input type="email" name="email"   value={GruopLeaderEmail}   onChange={handleRoomFloor}  className="form-control" />
-
-        <label>gruopID</label>
-        <input type="text" name="id" value={GroupID}  onChange={handleRoomNo} className="form-control" />
-
-        <label>Message</label>
-        <textarea name="message" rows="4"   placeholder="your Group Topic is "  value={status}    className="form-control" />
-        <input
-          type="submit"
-          value="Send"
-          className="form-control btn btn-primary"
-          style={{ marginTop: "30px" }}
-        />
-      </form>
-    </div>
-    </div>
-    </div>
-  );
-};
-
-export default Mailer;

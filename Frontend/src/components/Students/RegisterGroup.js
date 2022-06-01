@@ -9,6 +9,9 @@ import logo from '../images/grp-removebg-preview.png'
 
 const RegisterGroup = () => {
 
+
+  
+
   const [GruopLeaderEmail, setGruopLeaderEmail] = useState("");
   const [GruopLeaderItNumber, setGruopLeaderItNumber] = useState();
   const [GruopMembersItNumbers, setGruopMembersItNumbers] = useState("");
@@ -100,6 +103,7 @@ const RegisterGroup = () => {
                  </div>
                 </div>
              </div>
+        
           </nav>
         </center>
 		<br/>

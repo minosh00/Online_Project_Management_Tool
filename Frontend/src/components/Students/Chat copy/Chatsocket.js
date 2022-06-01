@@ -1,110 +1,36 @@
-import emailjs from "emailjs-com";
+
 import React, { useEffect, useState } from "react";
-import axios from "axios";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import { SendEmailByid, getTopicById } from "../services/RequestTopic";
+import ScrollToBottom from "react-scroll-to-bottom";
 
-import Swal from "sweetalert2";
+function Chatsocket({ socket, username, room }) {
+  const [currentMessage, setCurrentMessage] = useState("");
+  const [messageList, setMessageList] = useState([]);
 
+  const sendMessage = async () => {
+    if (currentMessage !== "") {
+      const messageData = {
+        room: room,
+        author: username,
+        message: currentMessage,
+        time:
+          new Date(Date.now()).getHours() +
+          ":" +
+          new Date(Date.now()).getMinutes(),
+      };
 
-
-const Mailer = () => {
-
-
-
-
-  const navigate = useNavigate();
-
-  const { id } = useParams();
-
-  const handleSubmit = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("userRole");
-    navigate("/Login");
-  };
-
-
-  const [GroupID, setGroupID] = useState("");
-  const [GruopLeaderEmail, setGruopLeaderEmail] = useState("");
-  const [status, setstatus] = useState("");
-
-
-  const handleRoomNo = (e) => {
-    setGroupID(e.target.value);
-  };
-
-  const handleRoomFloor = (e) => {
-    setGruopLeaderEmail(e.target.value);
-  };
-
-
-const handlestatus = (e) => {
-    setstatus(e.target.value);
-  };
-
-
-
-  const GetTopicData = async () => {
-
-    let data = await getTopicById(id);
-
-    console.log("Update topics", data);
-    setGroupID(data?.data?.GroupID);
-    setGruopLeaderEmail(data?.data?.GruopLeaderEmail);
-   setstatus(data?.data?.status);
-  };
-
-  useEffect(() => {
-    GetTopicData();
-  }, []);
-
-  const UpdateTopicData = async (e) => {
-    e.preventDefault();
-    
-    let newdata = {
-      GroupID: GroupID,
-      GruopLeaderEmail: GruopLeaderEmail,
-      status: status,
-
-    
-    };
-
-    let data = await SendEmailByid(id, newdata);
-    console.log("Update success ", data);
-    if (!data?.data?.GroupID) {
-      alert("Update failed..");
-    } else {
-
-      navigate("/TopicAcpect")
-
+      await socket.emit("send_message", messageData);
+      setMessageList((list) => [...list, messageData]);
+      setCurrentMessage("");
     }
   };
 
-  function sendEmail(e) {
-
-    
-    e.preventDefault();
-
-    emailjs.sendForm(
-      "service_471dfme",
-      "template_mwvhicz",
-      e.target,
-      "l5NUKPpbvRhbN3ZLl"
-    ).then(res=>{
-
-      Swal.fire("Congrats", " successfully send email to student ", "success");{
-
-        navigate("/TopicAcpect")
-      }
-
-    
-        console.log(res);
-    }).catch(err=> console.log(err));
-  }
+  useEffect(() => {
+    socket.on("receive_message", (data) => {
+      setMessageList((list) => [...list, data]);
+    });
+  }, [socket]);
 
   return (
-
-
     <div className="">
     <div style={{ textAlign: "center" }}>
  <div style={{ marginTop: "30px" }}>
@@ -160,7 +86,7 @@ const handlestatus = (e) => {
              </div>
          </div>
      </div>
-   
+ 
  </nav>
 
             <br />
@@ -168,46 +94,54 @@ const handlestatus = (e) => {
          
             <br />
             <br />
-
-  
-
-
-    <div
-
-      className="container border"
-      style={{
-        marginTop: "50px",
-        width: "50%",
-        backgroundImage: `url('')`,
-        backgroundPosition: "center",
-        backgroundSize: "cover",
-      }}
-    >
-      <h1 style={{ marginTop: "25px" }}>Contact Form</h1>
-      <form
-        className="row"
-        style={{ margin: "25px 85px 75px 100px" }}
-        onSubmit={sendEmail}
-      >
-        <label>email</label>
-        <input type="email" name="email"   value={GruopLeaderEmail}   onChange={handleRoomFloor}  className="form-control" />
-
-        <label>gruopID</label>
-        <input type="text" name="id" value={GroupID}  onChange={handleRoomNo} className="form-control" />
-
-        <label>Message</label>
-        <textarea name="message" rows="4"   placeholder="your Group Topic is "  value={status}    className="form-control" />
-        <input
-          type="submit"
-          value="Send"
-          className="form-control btn btn-primary"
-          style={{ marginTop: "30px" }}
-        />
-      </form>
+    <div>
+      <center>
+        <div className="chat-window">
+          <div className="chat-header">
+            <p>Group Chat</p>
+          </div>
+          <div className="chat-body">
+            <ScrollToBottom className="message-container">
+              {messageList.map((messageContent) => {
+                return (
+                  <div
+                    className="message"
+                    id={username === messageContent.author ? "you" : "other"}
+                  >
+                    <div>
+                      <div className="message-content">
+                        <p>{messageContent.message}</p>
+                      </div>
+                      <div className="message-meta">
+                        <p id="time">{messageContent.time}</p>
+                        <p id="author">{messageContent.author}</p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </ScrollToBottom>
+          </div>
+          <div className="chat-footer">
+            <input
+              type="text"
+              value={currentMessage}
+              placeholder="Hey..."
+              onChange={(event) => {
+                setCurrentMessage(event.target.value);
+              }}
+              onKeyPress={(event) => {
+                event.key === "Enter" && sendMessage();
+              }}
+            />
+            <button onClick={sendMessage}>&#9658;</button>
+          </div>
+        </div>
+      </center>
     </div>
     </div>
     </div>
   );
-};
+}
 
-export default Mailer;
+export default Chatsocket;

@@ -14,7 +14,29 @@ var jwtSecret = "mysecrettoken";
         return res.status(400).json({ errors: errors.array() });
     }
 
-    const { name, email, password , userRole  } = req.body;
+    const { name, email, password , userRole ,interestsTopicFiled } = req.body;
+
+    
+    if(!name || !email  || !password   )
+    return res
+    .status(400)
+    .json({errorMessage : "plz all fill"});
+
+    if(name.length<9)
+    return res.status(400).json({
+        errorMessage: "Please enter a first name of at least 3 characters.",
+    });
+
+
+    if(password.length<10)
+    return res.status(400).json({
+        errorMessage: "Please enter a first name of at least 3 characters.",
+    });
+
+
+
+
+
 
     try {
         // See if user exists
@@ -27,10 +49,11 @@ var jwtSecret = "mysecrettoken";
             name,
             email,
             password,
-            userRole
+            userRole,
+            interestsTopicFiled,
         });
 
-        //Encrypt Password
+        // Encrypt Password
         const salt = await bcrypt.genSalt(10);
 
         user.password = await bcrypt.hash(password, salt);

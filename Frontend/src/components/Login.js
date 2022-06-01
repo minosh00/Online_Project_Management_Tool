@@ -3,7 +3,6 @@ import { Link , useNavigate } from "react-router-dom";
 import { LoginStudent } from "../services/AuthServices";
 import Swal from "sweetalert2";
 import logo from './images/loginnn.webp'
-
 const Login = () => {
 
 	const navigate = useNavigate();
@@ -34,18 +33,18 @@ const Login = () => {
         }
         else
         {
-			   Swal.fire('error' , 'Successfully login Your Account ' , 'error')
+			   Swal.fire('error' , 'error login Your Account ' , 'error')
 			
 			  
         }
-	};
+	}; 
 
 
 	return (
 		<div>
-			      <center>
+			     <center>
       <div style={{marginTop:"30px"}}>
-          <center><h1>Welcome to  Research Project Management Tool system</h1></center> 
+          <center><h1 style={{"font-family": 'Chilanka'}} ><b>Welcome to  Research Project Management Tool system</b></h1></center> 
         </div>
         <br/>
           <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -57,20 +56,16 @@ const Login = () => {
                <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
                  <div className="navbar-nav">
 
-   {/* admin Pages */}
+     {/* admin Pages */}
    <a style={{ display: localStorage.getItem("userRole") == "Admin" ? "flex" : "none" }} className="nav-link active" href="/AllStudents" aria-current="page">All Students</a>
                             <a style={{ display: localStorage.getItem("userRole") == "Admin" ? "flex" : "none" }} className="nav-link active" href="/AdminRegister" aria-current="page">Register Admin</a>
                             <a style={{ display: localStorage.getItem("userRole") == "Admin" ? "flex" : "none" }} className="nav-link active" href="/StaffRegister" aria-current="page">Add Staff</a>
-                            <a style={{ display: localStorage.getItem("userRole") == "student" ? "flex" : "none" }} className="nav-link active" href="/RegisterGroup" aria-current="page">Register Group</a>
 
                             {/* student Pages */}
                             <a style={{ display: localStorage.getItem("userRole") == "student" ? "flex" : "none" }} className="nav-link active" href="/" aria-current="page">Assignment </a>
                             <a style={{ display: localStorage.getItem("userRole") == "student" ? "flex" : "none" }} className="nav-link active" href="/StudentProfile" aria-current="page">My Profile</a>
-                            <a style={{ display: localStorage.getItem("userRole") == "student" ? "flex" : "none" }} className="nav-link active" href="/TopicRegister" aria-current="page">Topic Register</a>
-
-                            <a style={{ display: localStorage.getItem("userRole") == "student" ? "flex" : "none" }} className="nav-link active" href="/DisplayTopicStatusByStudent" aria-current="page">Display Topic Status </a>
-
                             <a style={{ display: localStorage.getItem("userRole") == "student" ? "flex" : "none" }} className="nav-link active" href="/RegisterGroup" aria-current="page">Register Group</a>
+                            <a style={{ display: localStorage.getItem("userRole") == "student" ? "flex" : "none" }} className="nav-link active" href="/DisplayTopicStatusByStudent" aria-current="page">Display Topic Status </a>
 
 
            
@@ -97,7 +92,6 @@ const Login = () => {
 
                             <a style={{ display: localStorage.getItem("userRole") == "PanelMember" ? "flex" : "none" }} className="nav-link active" href="/StudentProfile" aria-current="page">My Profile</a>
 
-           
            
            
            
@@ -154,6 +148,7 @@ const Login = () => {
               </div>
           </div>
 </div>
+
 </div>
 	
 	);

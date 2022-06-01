@@ -39,6 +39,8 @@ app.use("/UploadAssignment", require("./Routes/UploadAssigmentRoutes"));
 app.use("/gruops", require("./Routes/GroupRoutes"));
 app.use("/SupervisorRequest", require("./Routes/SupervisorRequestRoutes"));
 app.use("/CoSupervisorRequest", require("./Routes/CoSupervisorRequestRoutes"));
+app.use("/marking", require("./Routes/MarkingSchemesRoutes"));
+
 
 
 app.use("/topicsrequest", require("./Routes/TopicRoutesUpdte"));

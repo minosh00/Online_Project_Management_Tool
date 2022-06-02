@@ -37,7 +37,7 @@ const updateGroupsByID = async (req, res) => {
 
 const updateGroupsIDByID = async (req, res) => {
     const { id } = req.params;
-    const {  GruopLeaderEmail, GruopLeaderItNumber , GruopMembersItNumbers,GruopMembersNames,GruopMembersEmail,GruopMembersContectNumber ,GroupID} = req.body;
+    const {  GruopLeaderEmail, GruopLeaderItNumber , GruopMembersItNumbers,GruopMembersNames,GruopMembersEmail,GruopMembersContectNumber  ,pannelmemberName ,GroupID} = req.body;
     
     if (!mongoose.Types.ObjectId.isValid(id)) return res.status(404).send(`No topic with id: ${id}`);
 
@@ -51,7 +51,7 @@ const updateGroupsIDByID = async (req, res) => {
 
 
 
-const updatepannelmemberByID = async (req, res) => {
+const updatePannelMemberByID = async (req, res) => {
     const { id } = req.params;
     const {  GruopLeaderEmail, GruopLeaderItNumber , GruopMembersItNumbers,GruopMembersNames,GruopMembersEmail,GruopMembersContectNumber,pannelmemberName ,GroupID} = req.body;
     
@@ -117,7 +117,7 @@ const getGroupsById = async (req, res) => {
 
 
 
-module.exports ={getAllGroups, updateGroupsIDByID , createGroup  ,getGroupsById, updateGroupsByID , updatepannelmemberByID};
+module.exports ={getAllGroups, updateGroupsIDByID , createGroup  ,getGroupsById, updateGroupsByID , updatePannelMemberByID};
 
 
 

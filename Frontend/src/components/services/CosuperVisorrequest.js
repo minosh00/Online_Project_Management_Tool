@@ -1,9 +1,9 @@
 import axios from 'axios';
 
 
-let createCoSupervisorURL = "http://localhost:8080/CoSupervisorRequest/createCoSupervisor"; 
-let getCoSupervisorByIdURL = "http://localhost:8080/CoSupervisorRequest/getAllCoSupervisorRequest/";
-let updateCoSupervisorByIdURL = "http://localhost:8080/CoSupervisorRequest/updateCoSupervisorByID/";
+let createCoSupervisorURL = "https://afresearchprojectmanagementtoo.herokuapp.com/CoSupervisorRequest/createCoSupervisor"; 
+let getCoSupervisorByIdURL = "https://afresearchprojectmanagementtoo.herokuapp.com/CoSupervisorRequest/getAllCoSupervisorRequest/";
+let updateCoSupervisorByIdURL = "https://afresearchprojectmanagementtoo.herokuapp.com/CoSupervisorRequest/updateCoSupervisorByID/";
 
 
 

@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 
-let createSupervisorURL = "http://localhost:8080/SupervisorRequest/createSupervicor"; 
-let getSupervisorByIdURL = "http://localhost:8080/SupervisorRequest/getAllSupervicorRequest/";
-let updateSupervisorByIdURL = "http://localhost:8080/SupervisorRequest/updateSupervicorByID/";
-let AllSupervicorRequestStatusURL = "http://localhost:8080/SupervisorRequest/AllSupervicorRequestStatus/";
+let createSupervisorURL = "https://afresearchprojectmanagementtoo.herokuapp.com/SupervisorRequest/createSupervicor"; 
+let getSupervisorByIdURL = "https://afresearchprojectmanagementtoo.herokuapp.com/SupervisorRequest/getAllSupervicorRequest/";
+let updateSupervisorByIdURL = "https://afresearchprojectmanagementtoo.herokuapp.com/SupervisorRequest/updateSupervicorByID/";
+let AllSupervicorRequestStatusURL = "https://afresearchprojectmanagementtoo.herokuapp.com/SupervisorRequest/AllSupervicorRequestStatus/";
 
 
 

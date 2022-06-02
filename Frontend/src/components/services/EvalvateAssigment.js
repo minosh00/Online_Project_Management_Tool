@@ -2,8 +2,8 @@ import axios from 'axios';
 
 
 
-let getByIdURL = "http://localhost:8080/UploadAssignment/getevaluvtAssigmentById/";
-let updateIdURL = "http://localhost:8080/UploadAssignment/updateAssigment/";
+let getByIdURL = "https://afresearchprojectmanagementtoo.herokuapp.com/UploadAssignment/getevaluvtAssigmentById/";
+let updateIdURL = "https://afresearchprojectmanagementtoo.herokuapp.com/updateAssigment/";
 
 
 

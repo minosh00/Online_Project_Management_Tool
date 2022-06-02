@@ -1,12 +1,12 @@
 import axios from 'axios';
 
 
-let createTopicRequestURL = "http://localhost:8080/topicsrequest/createTopicRequest"; 
-let getAllTopicRequestURL = "http://localhost:8080/topicsrequest/getAllTopicRequest/";
-let updateTopicRequestByIDURL = "http://localhost:8080/topicsrequest/updateTopicRequestByID/";
-let getTopicByIdURL = "http://localhost:8080/topicsrequest/getTopicById/";
-let SendEmailByidURL = "http://localhost:8080/topicsrequest/SendEmailByid/";
-let getAlltopiclistdURL = "http://localhost:8080/topicsrequest/getAlltopiclist/";
+let createTopicRequestURL = "https://afresearchprojectmanagementtoo.herokuapp.com/topicsrequest/createTopicRequest"; 
+let getAllTopicRequestURL = "https://afresearchprojectmanagementtoo.herokuapp.com/topicsrequest/getAllTopicRequest/";
+let updateTopicRequestByIDURL = "https://afresearchprojectmanagementtoo.herokuapp.com/topicsrequest/updateTopicRequestByID/";
+let getTopicByIdURL = "https://afresearchprojectmanagementtoo.herokuapp.com/topicsrequest/getTopicById/";
+let SendEmailByidURL = "https://afresearchprojectmanagementtoo.herokuapp.com/topicsrequest/SendEmailByid/";
+let getAlltopiclistdURL = "https://afresearchprojectmanagementtoo.herokuapp.com/topicsrequest/getAlltopiclist/";
 
 
 

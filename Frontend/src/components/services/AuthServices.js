@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 
-let AuthURL = "http://localhost:8080/user/auth/";
+let AuthURL = "https://afresearchprojectmanagementtoo.herokuapp.com/user/auth/";
 
 
 
